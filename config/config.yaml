@@ -27,9 +27,11 @@ prompt: |
   {article}
   </article>
 
-  Generate 5 questions about the article, which are all answered in the article.
+  Generate 2 to 5 questions about the article, which are all answered in the article.
 
   You also have to supply answers to the questions, and the answers have to appear exactly as written in the article (including same casing).
+
+  The answers have to be different from each other.
 
   Your questions must be hard to answer.
 
