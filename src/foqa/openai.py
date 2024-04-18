@@ -55,9 +55,18 @@ def get_json_generation(article: str, config: DictConfig) -> list[dict[str, str]
         temperature=config.temperature,
         response_format=ResponseFormat(type="json_object"),
     )
+
     generation_output = model_output.choices[0].message.content
     assert isinstance(generation_output, str)
     json_obj = json.loads(generation_output)
-    if isinstance(json_obj, dict):
-        json_obj = list(json_obj.values())[0]
-    return json_obj
+    assert isinstance(json_obj, dict) and "results" in json_obj
+
+    generated_samples = list()
+    for generated_sample in json_obj["results"]:
+        if (
+            all(key in generated_sample for key in ["question", "answer"])
+            and generated_sample["answer"] in article
+        ):
+            generated_samples.append(generated_sample)
+
+    return generated_samples

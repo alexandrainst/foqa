@@ -8,15 +8,17 @@ dirs:
   processed: processed
   final: final
 
+min_article_length: 100
+
 push_to_hub: false
 hub_id: alexandrainst/foqa
 
 model: gpt-4-turbo-2024-04-09
-max_tokens: 4096
+max_tokens: 1024
 temperature: 1.0
 system_prompt: >
-  You are a helpful Faroese question answering dataset generator, and all your answers
-  will be valid JSON.
+  You are a helpful Faroese question answering dataset generator. The only language you
+  know is Faroese.
 prompt: |
   The following is a Wikipedia article in Faroese.
 
@@ -24,6 +26,14 @@ prompt: |
   {article}
   </article>
 
-  Identify 3 paragraphs in the article, and come up with a question about each paragraph which is answered in the paragraph. Each paragraph must contain at least 5 sentences. You also have to supply answers to the questions, and the answers have to appear exactly as written in the paragraph (including same casing).
+  Generate 5 questions about the article, which are all answered in the article.
 
-  Your answer must be a list of dictionaries having keys "paragraph", "question" and "answer".
+  You also have to supply answers to the questions, and the answers have to appear exactly as written in the article (including same casing).
+
+  Your questions must be hard to answer.
+
+  Rephrase your question using synonyms, to avoid using phrases that are used directly in the article.
+
+  All your questions and answers must be in Faroese.
+
+  Your answer must be a JSON dictionary with the key "results", with the value being a list of dictionaries having keys "question" and "answer".
