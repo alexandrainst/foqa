@@ -51,22 +51,20 @@ def build_dataset(config: DictConfig) -> None:
             )
             continue
 
-        for generated_sample in generated_samples:
-            record = dict(
-                id=sample["url"],
-                title=sample["title"],
-                context=sample["text"],
-                question=generated_sample["question"],
-                answers=dict(
-                    text=[generated_sample["answer"]],
-                    answer_start=sample["text"].find(generated_sample["answer"]),
-                ),
-            )
-            records.append(record)
-
         with records_path.open("a") as f:
             for generated_sample in generated_samples:
-                f.write(json.dumps(generated_sample) + "\n")
+                record = dict(
+                    id=sample["url"],
+                    title=sample["title"],
+                    context=sample["text"],
+                    question=generated_sample["question"],
+                    answers=dict(
+                        text=[generated_sample["answer"]],
+                        answer_start=sample["text"].find(generated_sample["answer"]),
+                    ),
+                )
+                records.append(record)
+                f.write(json.dumps(record) + "\n")
 
     logger.info("Converting the records to a Hugging Face dataset...")
     df = pd.DataFrame.from_records(records)
