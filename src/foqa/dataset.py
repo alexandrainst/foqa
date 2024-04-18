@@ -24,7 +24,7 @@ def build_dataset(config: DictConfig) -> None:
     logger.info("Loading the Faroese Wikipedia dataset...")
     dataset = load_dataset(
         "alexandrainst/scandi-wiki", "fo", split="train", trust_remote_code=True
-    )
+    ).shuffle(seed=config.seed)
 
     records_path = Path(config.dirs.data) / config.dirs.raw / "records.jsonl"
     if records_path.exists():

@@ -8,6 +8,7 @@ dirs:
   processed: processed
   final: final
 
+seed: 4242
 min_article_length: 100
 
 push_to_hub: false

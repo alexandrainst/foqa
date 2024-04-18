@@ -35,14 +35,13 @@ def get_json_generation(article: str, config: DictConfig) -> list[dict[str, str]
         ValueError:
             If the OPENAI_API_KEY environment variable is not set.
     """
+    logging.getLogger("httpx").setLevel(logging.CRITICAL)
+
     openai_api_key = os.getenv("OPENAI_API_KEY")
     if openai_api_key is None:
         raise ValueError("OPENAI_API_KEY environment variable not set")
 
-    logging.getLogger("openai").setLevel(logging.CRITICAL)
-
     client = OpenAI(api_key=openai_api_key, max_retries=60)
-
     model_output = client.chat.completions.create(
         messages=[
             ChatCompletionSystemMessageParam(
