@@ -1,7 +1,7 @@
 FROM python:3.11-slim-bookworm
 
 # Install poetry
-RUN pip install "poetry==1.5.1"
+RUN pip install "poetry==1.7.1"
 
 # Move the files into the container
 WORKDIR /project
@@ -12,4 +12,4 @@ RUN poetry env use python3.11
 RUN poetry install --no-interaction --no-cache --without dev
 
 # Run the script
-CMD poetry run python src/scripts/your_script.py
+CMD poetry run python src/scripts/create_dataset.py
