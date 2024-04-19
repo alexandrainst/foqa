@@ -5,7 +5,6 @@ defaults:
 dirs:
   data: data
   raw: raw
-  processed: processed
   final: final
 
 seed: 4242

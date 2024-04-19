@@ -78,7 +78,7 @@ def build_dataset(config: DictConfig) -> None:
     dataset = Dataset.from_pandas(df, preserve_index=False)
 
     logger.info("Saving the dataset to disk...")
-    dataset_path = Path(config.dirs.data) / config.dirs.processed / "foqa"
+    dataset_path = Path(config.dirs.data) / config.dirs.final / "foqa"
     dataset.save_to_disk(dataset_path)
     logger.info(f"Dataset saved to {dataset_path}.")
 
