@@ -70,4 +70,30 @@ def get_json_generation(article: str, config: DictConfig) -> list[dict[str, str]
         ):
             generated_samples.append(generated_sample)
 
+    # Re-phrase the generated questions
+    for generated_sample in generated_samples:
+        model_output = client.chat.completions.create(
+            messages=[
+                ChatCompletionSystemMessageParam(
+                    role="system", content=config.system_prompt
+                ),
+                ChatCompletionUserMessageParam(
+                    role="user",
+                    content=config.follow_up_prompt.format(
+                        question=generated_sample["question"]
+                    ),
+                ),
+            ],
+            model=config.model,
+            max_tokens=config.max_tokens,
+            temperature=config.temperature,
+            response_format=ResponseFormat(type="json_object"),
+        )
+        generation_output = model_output.choices[0].message.content
+        assert isinstance(generation_output, str)
+        json_obj = json.loads(generation_output)
+        assert isinstance(json_obj, dict) and "question" in json_obj
+        generated_sample["original_question"] = generated_sample["question"]
+        generated_sample["question"] = json_obj["question"]
+
     return generated_samples

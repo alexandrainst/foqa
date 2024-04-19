@@ -9,17 +9,22 @@ dirs:
   final: final
 
 seed: 4242
-min_article_length: 100
 
-push_to_hub: false
-hub_id: alexandrainst/foqa
+# Data configuration
+min_article_length: 1000
+num_samples: 1000
 
+# Model configuration
 model: gpt-4-turbo-2024-04-09
 max_tokens: 1024
 temperature: 1.0
+push_to_hub: false
+hub_id: alexandrainst/foqa
+
 system_prompt: >
   You are a helpful Faroese question answering dataset generator. The only language you
   know is Faroese.
+
 prompt: |
   The following is a Wikipedia article in Faroese.
 
@@ -27,16 +32,27 @@ prompt: |
   {article}
   </article>
 
-  Generate 2 to 5 questions about the article, which are all answered in the article.
+  Generate 2 to 10 questions about the article, depending on the length of the article, all of which answered in the article.
 
   You also have to supply answers to the questions, and the answers have to appear exactly as written in the article (including same casing).
 
+  The answers should only contain the answers themselves, and not the surrounding sentence - keep the answers as short as possible.
+
   The answers have to be different from each other.
-
-  Your questions must be hard to answer.
-
-  Rephrase your question using synonyms, to avoid using phrases that are used directly in the article.
 
   All your questions and answers must be in Faroese.
 
   Your answer must be a JSON dictionary with the key "results", with the value being a list of dictionaries having keys "question" and "answer".
+
+follow_up_prompt: >
+  The following is a Faroese question.
+
+  <question>
+  {question}
+  </question>
+
+  Re-write the question, preserving the meaning, using synonyms or a different (valid) word order.
+
+  Your question must be in Faroese.
+
+  Your answer must be a JSON dictionary with the key "question".
