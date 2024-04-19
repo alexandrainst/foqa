@@ -21,7 +21,8 @@ Developer(s):
 1. Run `make install`, which sets up a virtual environment and all Python dependencies
    therein.
 2. Run `source .venv/bin/activate` to activate the virtual environment.
-3. Run `python src/scripts/create_dataset.py` to create the dataset.
+3. Run `echo "OPENAI_API_KEY=<your-openai-api-key> > .env` to enable OpenAI generation.
+4. Run `python src/scripts/create_dataset.py` to create the dataset.
 
 The raw dataset will be stored in `data/raw` and will be updated continuously during
 creation, and the final dataset will appear in your `data/final`.
