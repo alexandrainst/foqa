@@ -28,8 +28,11 @@ def build_dataset(config: DictConfig) -> None:
         )
         .shuffle(seed=config.seed)
         .filter(lambda x: len(x["text"]) > config.min_article_length)
-        .select(range(config.num_samples))
     )
+    assert isinstance(dataset, Dataset)
+
+    num_samples = min(config.num_samples, len(dataset))
+    dataset = dataset.select(range(num_samples))
 
     records_path = Path(config.dirs.data) / config.dirs.raw / "records.jsonl"
     if records_path.exists():
