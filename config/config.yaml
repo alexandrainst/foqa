@@ -11,7 +11,7 @@ seed: 4242
 
 # Data configuration
 min_article_length: 1000
-num_samples: 1000
+num_samples: 5000
 
 # Model configuration
 model: gpt-4-turbo-2024-04-09
