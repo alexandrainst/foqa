@@ -32,6 +32,8 @@ def build_dataset(config: DictConfig) -> None:
     assert isinstance(dataset, Dataset)
 
     num_samples = min(config.num_samples, len(dataset))
+    if num_samples < config.num_samples:
+        logger.info(f"Reduced number of samples to the maximal {num_samples:,}.")
     dataset = dataset.select(range(num_samples))
 
     records_path = Path(config.dirs.data) / config.dirs.raw / "records.jsonl"
