@@ -8,26 +8,25 @@ on:
 jobs:
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: jpetrucciani/black-check@master
 
   pytest:
     strategy:
         matrix:
-            os: [windows-latest, macos-latest, ubuntu-latest]
+            os: [self-hosted-ubuntu-latest]
             python-version: ["3.11"]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Poetry
-        run: pip3 install poetry==1.5.1
-
+        run: pipx install poetry
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: "poetry"
